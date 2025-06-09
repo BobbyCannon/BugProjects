@@ -13,24 +13,35 @@
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
 		<vm:MainViewModel />
 	</Design.DataContext>
-	<Grid HorizontalAlignment="Center"
-	      VerticalAlignment="Center"
-	      RowDefinitions="*,*">
-		<DataGrid Grid.Row="0"
-			ItemsSource="{Binding List.Filtered}"
-		          AutoGenerateColumns="True"
-		          >
+	<Grid HorizontalAlignment="Stretch"
+	      VerticalAlignment="Stretch"
+	      ColumnDefinitions="*,*"
+	      RowDefinitions="*,Auto">
+		<DataGrid Grid.Row="0" Grid.Column="0"
+				  x:Name="DataGrid"
+				  SelectionChanged="DataGridOnSelectionChanged"
+		          ItemsSource="{Binding List.Filtered}"
+				  IsReadOnly="True">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn>
+				<DataGridTemplateColumn IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding Name}"/>
+							<TextBlock Text="{Binding Name}" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
 
-		<TextBlock Grid.Row="1" Text="{Binding List.Count}" />
+		<TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding List.Count}" />
+
+		<ListBox Grid.Row="0" Grid.Column="1"
+		         ItemsSource="{Binding Selected}">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Name}" />
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
 	</Grid>
 </UserControl>
